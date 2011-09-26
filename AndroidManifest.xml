@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- BEGIN_INCLUDE(manifest) -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="org.box2d.testbed"
-        android:versionCode="1"
-        android:versionName="1.0">
+<!--
+/*
+**
+** Copyright 2009, The Android Open Source Project
+**
+** Licensed under the Apache License, Version 2.0 (the "License"); 
+** you may not use this file except in compliance with the License. 
+** You may obtain a copy of the License at 
+**
+**     http://www.apache.org/licenses/LICENSE-2.0 
+**
+** Unless required by applicable law or agreed to in writing, software 
+** distributed under the License is distributed on an "AS IS" BASIS, 
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+** See the License for the specific language governing permissions and 
+** limitations under the License.
+*/
+-->
 
-    <!-- This is the platform API where NativeActivity was introduced. -->
-    <uses-sdk android:minSdkVersion="8" />
-
-    <!-- This .apk has no Java code itself, so set hasCode to false. -->
-    <application android:label="@string/app_name" android:hasCode="false">
-
-        <!-- Our activity is the built-in NativeActivity framework class.
-             This will take care of integrating with our NDK code. -->
-        <activity android:name="android.app.NativeActivity"
-                android:label="@string/app_name"
-                android:configChanges="orientation|keyboardHidden">
-            <!-- Tell NativeActivity the name of or .so -->
-            <meta-data android:name="android.app.lib_name"
-                    android:value="testbed-activity" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.box2d.testbed">
+    <application android:label="@string/app_name">
+        <activity android:name="org.box2d.testbed.GL2JNIActivity"
+                android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            	android:launchMode="singleTask"
+            	android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
-
-</manifest> 
-<!-- END_INCLUDE(manifest) -->
+    <uses-feature android:glEsVersion="0x00020000"/>
+    <uses-sdk android:minSdkVersion="5"/>
+</manifest>

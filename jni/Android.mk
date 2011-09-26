@@ -17,7 +17,7 @@ LOCAL_PATH := $(MY_DIR)/../../..
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE     := box2d
+LOCAL_MODULE     := libbox2d
 LOCAL_SRC_FILES  := Box2D/Collision/b2BroadPhase.cpp Box2D/Collision/b2CollideCircle.cpp Box2D/Collision/b2CollideEdge.cpp Box2D/Collision/b2CollidePolygon.cpp Box2D/Collision/b2Collision.cpp Box2D/Collision/b2Distance.cpp Box2D/Collision/b2DynamicTree.cpp Box2D/Collision/b2TimeOfImpact.cpp Box2D/Collision/Shapes/b2ChainShape.cpp Box2D/Collision/Shapes/b2CircleShape.cpp Box2D/Collision/Shapes/b2EdgeShape.cpp Box2D/Collision/Shapes/b2PolygonShape.cpp Box2D/Common/b2BlockAllocator.cpp Box2D/Common/b2Draw.cpp Box2D/Common/b2Math.cpp Box2D/Common/b2Settings.cpp Box2D/Common/b2StackAllocator.cpp Box2D/Common/b2Timer.cpp Box2D/Dynamics/b2Body.cpp Box2D/Dynamics/b2ContactManager.cpp Box2D/Dynamics/b2Fixture.cpp Box2D/Dynamics/b2Island.cpp Box2D/Dynamics/b2World.cpp Box2D/Dynamics/b2WorldCallbacks.cpp Box2D/Dynamics/Contacts/b2ChainAndCircleContact.cpp Box2D/Dynamics/Contacts/b2ChainAndPolygonContact.cpp Box2D/Dynamics/Contacts/b2CircleContact.cpp Box2D/Dynamics/Contacts/b2Contact.cpp Box2D/Dynamics/Contacts/b2ContactSolver.cpp Box2D/Dynamics/Contacts/b2EdgeAndCircleContact.cpp Box2D/Dynamics/Contacts/b2EdgeAndPolygonContact.cpp Box2D/Dynamics/Contacts/b2PolygonAndCircleContact.cpp Box2D/Dynamics/Contacts/b2PolygonContact.cpp Box2D/Dynamics/Joints/b2DistanceJoint.cpp Box2D/Dynamics/Joints/b2FrictionJoint.cpp Box2D/Dynamics/Joints/b2GearJoint.cpp Box2D/Dynamics/Joints/b2Joint.cpp Box2D/Dynamics/Joints/b2MouseJoint.cpp Box2D/Dynamics/Joints/b2PrismaticJoint.cpp Box2D/Dynamics/Joints/b2PulleyJoint.cpp Box2D/Dynamics/Joints/b2RevoluteJoint.cpp Box2D/Dynamics/Joints/b2RopeJoint.cpp Box2D/Dynamics/Joints/b2WeldJoint.cpp Box2D/Dynamics/Joints/b2WheelJoint.cpp Box2D/Rope/b2Rope.cpp
 LOCAL_C_INCLUDES := $(LOCAL_PATH)
 
@@ -27,12 +27,24 @@ LOCAL_PATH := $(MY_DIR)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE           := testbed-activity
-LOCAL_SRC_FILES        := Framework/Main.cpp Framework/Render.cpp Framework/Test.cpp Tests/TestEntries.cpp
+LOCAL_MODULE           := libbox2d_testbed
+LOCAL_CFLAGS           := -Werror
+LOCAL_SRC_FILES        := jni.cpp Framework/Render.cpp Framework/Test.cpp Tests/TestEntries.cpp
 LOCAL_LDLIBS           := -llog -landroid -lEGL -lGLESv1_CM
-LOCAL_STATIC_LIBRARIES := android_native_app_glue box2d
+LOCAL_STATIC_LIBRARIES := libbox2d
 LOCAL_C_INCLUDES       := $(MY_DIR)/../../..
 
 include $(BUILD_SHARED_LIBRARY)
 
-$(call import-module,android/native_app_glue)
+#$(call import-module,android/native_app_glue)
+
+#LOCAL_PATH:= $(call my-dir)
+#
+#include $(CLEAR_VARS)
+#
+#LOCAL_MODULE    := box2d_testbed
+#LOCAL_CFLAGS    := -Werror
+#LOCAL_SRC_FILES := jni.cpp
+#LOCAL_LDLIBS    := -llog -lGLESv2
+#
+#include $(BUILD_SHARED_LIBRARY)
