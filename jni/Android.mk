@@ -13,7 +13,7 @@
 # limitations under the License.
 #
 MY_DIR := $(call my-dir)
-LOCAL_PATH := $(MY_DIR)/../../..
+LOCAL_PATH := $(box2d_loc)
 
 include $(CLEAR_VARS)
 
@@ -30,9 +30,9 @@ include $(CLEAR_VARS)
 LOCAL_MODULE           := libbox2d_testbed
 LOCAL_CFLAGS           := -Werror
 LOCAL_SRC_FILES        := jni.cpp Framework/Render.cpp Framework/Test.cpp Tests/TestEntries.cpp
-LOCAL_LDLIBS           := -llog -landroid -lEGL -lGLESv1_CM
+LOCAL_LDLIBS           := -lGLESv1_CM -ldl -llog
 LOCAL_STATIC_LIBRARIES := libbox2d
-LOCAL_C_INCLUDES       := $(MY_DIR)/../../..
+LOCAL_C_INCLUDES       := $(box2d_loc)
 
 include $(BUILD_SHARED_LIBRARY)
 

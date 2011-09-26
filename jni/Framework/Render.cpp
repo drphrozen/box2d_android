@@ -22,6 +22,7 @@ static void checkGlError(const char* op) {
 DebugDraw::~DebugDraw() {}
 
 void DebugDraw::DrawArray(const GLvoid *pointer, GLsizei count, GLenum mode) {
+	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(2, GL_FLOAT, 0, pointer);
 	checkGlError("glVertexPointer");
 	glDrawArrays(mode, 0, count);
