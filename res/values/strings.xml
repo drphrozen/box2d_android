@@ -22,4 +22,5 @@
 <resources>
     <!-- Simple strings. -->
     <string name="app_name">Box2D Testbed</string>
+    <string name="change_test">Change test</string>
 </resources>

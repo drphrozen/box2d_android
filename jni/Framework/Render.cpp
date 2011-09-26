@@ -9,7 +9,7 @@
 #include <cstring>
 using namespace std;
 
-#define LOG_TAG   "libgl2jni"
+#define LOG_TAG   "libbox2d_testbed_render"
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
 #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 
@@ -30,14 +30,12 @@ void DebugDraw::DrawArray(const GLvoid *pointer, GLsizei count, GLenum mode) {
 }
 
 void DebugDraw::DrawPolygon(const b2Vec2 *vertices, int32 vertexCount, const b2Color& color) {
-	LOGI("DrawPolygon");
 	glColor4f(color.r, color.g, color.b, 1);
 	DrawArray(vertices, vertexCount, GL_LINE_LOOP);
 }
 
 void DebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color)
 {
-	LOGI("DrawSolidPolygon");
 	glEnable(GL_BLEND);
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glColor4f(0.5f * color.r, 0.5f * color.g, 0.5f * color.b, 0.5f);
@@ -51,7 +49,6 @@ void DebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, cons
 
 void DebugDraw::DrawCircle(const b2Vec2& center, float32 radius, const b2Color& color)
 {
-	LOGI("DrawCircle");
 	const int32 k_segments = 16;
 	const float32 k_increment = 2.0f * b2_pi / k_segments;
 	float32 theta = 0.0f;
@@ -68,7 +65,6 @@ void DebugDraw::DrawCircle(const b2Vec2& center, float32 radius, const b2Color& 
 
 void DebugDraw::DrawSolidCircle(const b2Vec2& center, float32 radius, const b2Vec2& axis, const b2Color& color)
 {
-	LOGI("DrawSolidCircle");
 	const int32 k_segments = 16;
 	const float32 k_increment = 2.0f * b2_pi / k_segments;
 	float32 theta = 0.0f;
@@ -104,7 +100,6 @@ void DebugDraw::DrawSolidCircle(const b2Vec2& center, float32 radius, const b2Ve
 
 void DebugDraw::DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& color)
 {
-	LOGI("DrawSegment");
 	glColor4f(color.r, color.g, color.b, 1.0f);
 	mVertices[0] = p1;
 	mVertices[1] = p2;
@@ -113,7 +108,6 @@ void DebugDraw::DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& c
 
 void DebugDraw::DrawTransform(const b2Transform& xf)
 {
-	LOGI("DrawTransform");
 	const float32 k_axisScale = 0.4f;
 	mVertices[0] = xf.p;
 	mVertices[1] = xf.p + k_axisScale * xf.q.GetXAxis();
@@ -130,7 +124,6 @@ void DebugDraw::DrawTransform(const b2Transform& xf)
 
 void DebugDraw::DrawPoint(const b2Vec2& p, float32 size, const b2Color& color)
 {
-	LOGI("DrawPoint");
 	glPointSize(size);
 
 	glColor4f(color.r, color.g, color.b, 1.0f);
@@ -141,7 +134,6 @@ void DebugDraw::DrawPoint(const b2Vec2& p, float32 size, const b2Color& color)
 
 void DebugDraw::DrawString(int x, int y, const char *string, ...)
 {
-	LOGI("DrawString");
 //	char buffer[128];
 //
 //	va_list arg;
@@ -177,7 +169,6 @@ void DebugDraw::DrawString(int x, int y, const char *string, ...)
 
 void DebugDraw::DrawAABB(b2AABB* aabb, const b2Color& c)
 {
-	LOGI("DrawAABB");
 	glColor4f(c.r, c.g, c.b, 1.0f);
 	mVertices[0] = b2Vec2(aabb->lowerBound.x, aabb->lowerBound.y);
 	mVertices[1] = b2Vec2(aabb->upperBound.x, aabb->lowerBound.y);

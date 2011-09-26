@@ -170,7 +170,7 @@ public:
 		memset(m_bodies, 0, sizeof(m_bodies));
 	}
 
-	void Create(int32 index)
+	void Createi(int32 index)
 	{
 		if (m_bodies[m_bodyIndex] != NULL)
 		{
@@ -235,7 +235,7 @@ public:
 		case '3':
 		case '4':
 		case '5':
-			Create(key - '1');
+			Createi(key - '1');
 			break;
 
 		case 'a':

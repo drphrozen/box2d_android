@@ -16,7 +16,6 @@
 #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 
 static void checkGlError(const char* op) {
-	LOGI("after %s()", op);
 	for (GLint error = glGetError(); error; error = glGetError()) {
 		LOGI("after %s() glError (0x%x)\n", op, error);
 	}
@@ -46,17 +45,79 @@ bool setupTests() {
 
 Settings settings;
 
+#define MOUSE_STATE_DOWN (0)
+#define MOUSE_STATE_UP   (1)
+#define MOUSE_STATE_MOVE (2)
+
 extern "C" {
 JNIEXPORT void JNICALL Java_org_box2d_testbed_TestbedRenderer_nativeInit(JNIEnv * env);
 JNIEXPORT void JNICALL Java_org_box2d_testbed_TestbedRenderer_nativeResize(JNIEnv * env, jobject obj, jint width, jint height);
 JNIEXPORT void JNICALL Java_org_box2d_testbed_TestbedRenderer_nativeRender(JNIEnv * env);
+
+JNIEXPORT jobjectArray JNICALL Java_org_box2d_testbed_TestbedActivity_nativeTests(JNIEnv *env);
+JNIEXPORT void JNICALL Java_org_box2d_testbed_TestbedActivity_nativeChangeTest(JNIEnv *env, jobject obj, jint test);
+JNIEXPORT void JNICALL Java_org_box2d_testbed_TestbedView_nativeMouse(JNIEnv *env, jobject obj, jint state, jint x, jint y);
+};
+
+static b2Vec2 ConvertScreenToWorld(int32 x, int32 y)
+{
+	float32 u = x / float32(mWidth);
+	float32 v = (mHeight - y) / float32(mHeight);
+
+	float32 ratio = float32(mWidth) / float32(mHeight);
+	b2Vec2 extents(ratio * 25.0f, 25.0f);
+	extents *= 1.0f; // viewZoom;
+
+	b2Vec2 lower = settings.viewCenter - extents;
+	b2Vec2 upper = settings.viewCenter + extents;
+
+	b2Vec2 p;
+	p.x = (1.0f - u) * lower.x + u * upper.x;
+	p.y = (1.0f - v) * lower.y + v * upper.y;
+	return p;
 }
-;
+
+
+JNIEXPORT void JNICALL Java_org_box2d_testbed_TestbedView_nativeMouse(JNIEnv *env, jobject obj, jint state, jint x, jint y) {
+	b2Vec2 p = ConvertScreenToWorld(x, y);
+	switch(state) {
+	case MOUSE_STATE_DOWN:
+		test->MouseDown(p);
+		break;
+	case MOUSE_STATE_UP:
+		test->MouseUp(p);
+		break;
+	case MOUSE_STATE_MOVE:
+		test->MouseMove(p);
+		break;
+	}
+}
+
+JNIEXPORT void JNICALL Java_org_box2d_testbed_TestbedActivity_nativeChangeTest(JNIEnv *env, jobject obj, jint test) {
+	testSelection = test;
+}
+
+JNIEXPORT jobjectArray JNICALL Java_org_box2d_testbed_TestbedActivity_nativeTests(JNIEnv *env) {
+
+	// count elements
+	int testCount = 0;
+	while(g_testEntries[testCount].createFcn != NULL) {
+		++testCount;
+	}
+
+	// create string array
+  jobjectArray ret = (jobjectArray)env->NewObjectArray(testCount, env->FindClass("java/lang/String"), env->NewStringUTF(""));
+
+  // copy each element to array
+  for(int i=0;i<testCount;i++) {
+      env->SetObjectArrayElement(ret, i, env->NewStringUTF(g_testEntries[i].name));
+  }
+  return(ret);
+}
+
 
 JNIEXPORT void JNICALL Java_org_box2d_testbed_TestbedRenderer_nativeInit(JNIEnv * env) {
-	LOGI("nativeInit");
 	glShadeModel(GL_FLAT);
-	LOGI("setupGraphics3");
 	checkGlError("glShadeModel");
 
 	//    glEnable(GL_LIGHTING);
@@ -138,6 +199,5 @@ static void SimulationLoop() {
 }
 
 JNIEXPORT void JNICALL Java_org_box2d_testbed_TestbedRenderer_nativeRender(JNIEnv * env) {
-	LOGI("SimulationLoop");
 	SimulationLoop();
 }

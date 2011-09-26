@@ -29,6 +29,6 @@
             </intent-filter>
         </activity>
     </application>
-    <uses-feature android:glEsVersion="0x00020000"/>
-    <uses-sdk android:minSdkVersion="5"/>
+    <uses-feature android:glEsVersion="0x00010000"/>
+    <uses-sdk android:minSdkVersion="4"/>
 </manifest>
