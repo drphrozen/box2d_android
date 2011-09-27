@@ -90,8 +90,7 @@ void DebugDraw::DrawSolidCircle(const b2Vec2& center, float32 radius, const b2Ve
 		mVertices[i] = center + radius * b2Vec2(cosf(theta), sinf(theta));
 		theta += k_increment;
 	}
-	DrawArray(mVertices, k_segments, GL_TRIANGLE_FAN);
-
+	DrawArray(mVertices, k_segments, GL_LINE_LOOP);
 
 	mVertices[0] = b2Vec2(center.x, center.y);
 	mVertices[1] = center + radius * axis;
