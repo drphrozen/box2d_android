@@ -1,0 +1,8 @@
+== Box2D Testbed for Android ==
+This is a simple port of the Box2D Testbed to the Android platform. The port consists of:
+;Graphics
+: from OpenGL, freeglut and GLUI 
+: to OpenGL ES and overlay Views in Java/XML
+;Input/events
+: from freeglut (keyboard and mouse)
+: to android events (touch gestures) and input views (buttons)
